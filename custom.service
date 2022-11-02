@@ -1,0 +1,10 @@
+[Unit]
+Description=Custom service
+
+[Service]
+Type=oneshot
+ExecStart=mount securityfs -t securityfs /sys/kernel/security
+RemainAfterExit=no
+
+[Install]
+WantedBy=multi-user.target
