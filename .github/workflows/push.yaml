@@ -54,6 +54,6 @@ jobs:
     container:
       image: neppel/ci
       options: --cpus 1
-      steps:
-        - name: Install
-          run: snap install charmcraft --classic
+    steps:
+      - name: Install
+        run: snap install charmcraft --classic
