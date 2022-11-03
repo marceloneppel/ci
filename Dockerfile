@@ -8,4 +8,4 @@ RUN apt-get install -y snapd=2.57.5+22.04 squashfuse=0.1.103-3 fuse=2.9.9-5ubunt
 RUN systemctl enable snapd
 RUN systemctl enable custom
 STOPSIGNAL SIGRTMIN+3
-CMD [ "/sbin/init" ]
+ENTRYPOINT [ "/sbin/init" ]
