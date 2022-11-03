@@ -53,7 +53,6 @@ jobs:
 
     container:
       image: neppel/ci
-      options:  -ti --tmpfs /run --tmpfs /run/lock --tmpfs /tmp --privileged -v /sys/fs/cgroup:/sys/fs/cgroup:rw -v /lib/modules:/lib/modules:ro
     steps:
       - name: Install
         run: juju clouds
