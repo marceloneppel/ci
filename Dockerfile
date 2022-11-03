@@ -34,13 +34,14 @@ RUN set -eux; \
     curl -L -H 'Snap-CDN: none' $(curl -H 'X-Ubuntu-Series: 16'  -H "X-Ubuntu-Architecture: $(dpkg --print-architecture)" 'https://api.snapcraft.io/api/v1/snaps/details/microk8s' | jq '.download_url' -r) --output microk8s.snap && \
     mkdir -p /snap && unsquashfs -d /snap/microk8s microk8s.snap
 
-FROM ubuntu:jammy
+FROM ubuntu:focal
 
 LABEL maintainer="Ubuntu Server team <ubuntu-server@lists.ubuntu.com>"
 
-ENV TZ=UTC PATH=/opt/charmcraft/bin:/opt/juju/bin:/opt/lxd/bin:/opt/microk8s:$PATH
+ENV TZ=UTC PATH=$PATH:/opt/charmcraft/bin:/opt/juju/bin:/opt/lxd/bin:/opt/microk8s
+ENV PYTHONPATH "${PYTHONPATH}:/opt/charmcraft/lib"
 
-RUN apt-get update && apt-get install python3 -y
+RUN apt-get update && apt-get install python3 python3-distutils -y
 
 COPY --from=charmcraft /snap/charmcraft /opt/charmcraft
 COPY --from=juju /snap/juju /opt/juju
