@@ -1,8 +1,8 @@
 clean:
-	docker rmi ci -f
+	docker rmi neppel/ci -f
 
 build:
-	docker build -t ci .
+	docker build -t neppel/ci .
 
 install-charmcraft:
 	docker exec -it ci snap install charmcraft --classic
@@ -22,7 +22,7 @@ start:
       --privileged \
       -v /sys/fs/cgroup:/sys/fs/cgroup:rw \
       -v /lib/modules:/lib/modules:ro \
-      ci
+      neppel/ci
 
 stop:
 	docker rm --force ci
