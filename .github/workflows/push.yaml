@@ -1,0 +1,48 @@
+# Copyright 2022 Canonical Ltd.
+# See LICENSE file for licensing details.
+
+# CI testing for building and deploying CI docker image.
+name: Build and deploy
+
+on:
+  push:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Build Image and Export
+        uses: docker/build-push-action@v2
+        with:
+          context: ./
+          file: ./Dockerfile
+          builder: ${{ steps.buildx.outputs.name }}
+          # Do not publish the image.
+          push: false
+          # Set the tag to retrieve the image in Deploy tests.
+          tags: ci
+          outputs: type=docker,dest=/tmp/image.tar
+
+      - name: Upload image to be used in Deploy tests
+        uses: actions/upload-artifact@v2
+        with:
+          name: image
+          path: /tmp/image.tar
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download image built in Build tests
+        uses: actions/download-artifact@v2
+        with:
+          name: image
+          path: /tmp
