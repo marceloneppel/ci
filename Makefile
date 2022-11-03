@@ -4,6 +4,9 @@ clean:
 build:
 	docker build -t neppel/ci .
 
+publish:
+	docker push neppel/ci
+
 install-charmcraft:
 	docker exec -it ci snap install charmcraft --classic
 
