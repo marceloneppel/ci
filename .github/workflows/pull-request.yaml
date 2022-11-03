@@ -1,0 +1,20 @@
+name: CI
+on:
+  pull_request:
+
+jobs:
+  integration-test-lxd-tls:
+    name: CI
+    needs:
+      - lint
+      - unit-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup operator environment
+        uses: charmed-kubernetes/actions-operator@main
+        with:
+          provider: lxd
+      - name: Run integration tests
+        run: tox -e tls-integration
