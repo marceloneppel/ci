@@ -13,3 +13,6 @@ start:
 
 stop:
 	docker rm --force ci
+
+shell:
+	docker exec -it ci bash
