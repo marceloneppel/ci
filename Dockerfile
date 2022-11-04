@@ -20,9 +20,10 @@ LABEL maintainer="Data team <data-platform@canonical.com>"
 ENV TZ=UTC PATH=$PATH:/opt/charmcraft/bin:/opt/juju/bin:/opt/lxd/bin:/opt/microk8s
 ENV PYTHONPATH "${PYTHONPATH}:/opt/charmcraft/lib"
 
-RUN apt-get update && apt-get install python3 python3-distutils -y
+RUN apt-get update && apt-get install python3 python3-distutils sudo -y
 
 COPY --from=snaps /snap/charmcraft /opt/charmcraft
 COPY --from=snaps /snap/juju /opt/juju
 COPY --from=snaps /snap/lxd /opt/lxd
 COPY --from=snaps /snap/microk8s /opt/microk8s
+RUN sed "s/#!\/bin\/bash/#!\/bin\/bash\nSNAP=\/opt\/microk8s/" /opt/microk8s/*.wrapper -i
