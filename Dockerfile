@@ -27,3 +27,4 @@ COPY --from=snaps /snap/juju /opt/juju
 COPY --from=snaps /snap/lxd /opt/lxd
 COPY --from=snaps /snap/microk8s /opt/microk8s
 RUN sed "s/#!\/bin\/bash/#!\/bin\/bash\nSNAP=\/opt\/microk8s/" /opt/microk8s/*.wrapper -i
+RUN echo 'alias microk8s="microk8s.wrapper"' >> ~/.bashrc
